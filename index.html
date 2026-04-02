@@ -46,7 +46,7 @@
         .manifesto p:last-child { margin-bottom:0; }
         .manifesto p strong { font-weight:500; }
         .manifesto .placeholder { color:var(--color-text-secondary); font-style:italic; font-size:0.95rem; }
-        footer { position:relative; z-index:1; max-width:var(--max-width); margin:0 auto; padding:var(--space-lg) 2rem var(--space-md); border-top:1px solid var(--color-border); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; }
+        footer { position:relative; z-index:1; max-width:var(--max-width); margin:0 auto; padding:var(--space-lg) 2rem var(--space-md); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; }
         footer .footer-left { font-size:0.78rem; color:var(--color-text-secondary); font-weight:300; }
         footer .footer-left a { color:var(--color-text-secondary); text-decoration:underline; text-underline-offset:2px; }
         footer .footer-links { display:flex; gap:1.5rem; list-style:none; }
@@ -60,7 +60,7 @@
 </head>
 <body>
     <canvas id="voronoi-bg"></canvas>
-    <nav><div class="nav-inner"><a href="/" class="logo">Accrue</a><ul class="nav-links"><li><a href="marvosyntactical.github.io">Contact</a></li></ul></div></nav>
+    <nav><div class="nav-inner"><a href="/" class="logo">Accrue</a><ul class="nav-links"><li><a href="mailto:marv@accrue.build">Contact</a></li></ul></div></nav>
     <main>
         <section class="hero">
             <h1 class="fade-in">Intelligence that accrues.</h1>
@@ -77,7 +77,7 @@
 	-->
     </main>
     <footer>
-        <div class="footer-left">Accrue — a research project by <a href="/cdn-cgi/l/email-protection#caa7abb8bc8aaba9a9b8bfafe4a8bfa3a6ae">Marvin Koss</a></div>
+        <div class="footer-left">Accrue — a research project by <a href="marvosyntactical.github.io">Marvin Koss</a></div>
         <ul class="footer-links">
             <li><a href="https://github.com/marvosyntactical" target="_blank">GitHub</a></li>
             <li><a href="https://twitter.com/hal9kcyon" target="_blank">Twitter</a></li>
@@ -288,7 +288,7 @@
                 var ni = nearest(smx,smy);
                 // Nonlinear fill: fast initially, asymptotically slowing (exponential approach)
                 var headroom = maxFill[ni] - fills[ni];
-                fills[ni] += 0.04 * headroom;
+                fills[ni] += 0.0067 * headroom;
                 // Neighbor spread: same exponential approach at lower rate
                 var neighbors = {};
                 for(var ti=0;ti<cachedResult.interior.length;ti++){
@@ -302,7 +302,7 @@
                 var nkeys=Object.keys(neighbors);
                 for(var j=0;j<nkeys.length;j++){
                     var nj=parseInt(nkeys[j]);
-                    if(nj>=0&&nj<N) fills[nj]+=0.015*(maxFill[nj]-fills[nj]);
+                    if(nj>=0&&nj<N) fills[nj]+=0.0025*(maxFill[nj]-fills[nj]);
                 }
             }
         }
@@ -322,7 +322,7 @@
                 ctx.moveTo(verts[0].x,verts[0].y);
                 for(var vi=1;vi<verts.length;vi++) ctx.lineTo(verts[vi].x,verts[vi].y);
                 ctx.closePath();
-                ctx.fillStyle='rgba(45,90,61,'+(f*0.375).toFixed(3)+')';
+                ctx.fillStyle='rgba(45,90,61,'+Math.min(1,f*1.125).toFixed(3)+')';
                 ctx.fill();
             }
 
@@ -337,6 +337,40 @@
             ctx.strokeStyle='rgba(120,118,112,0.14)';
             ctx.lineWidth=1;
             ctx.stroke();
+
+            // Brighten text based on local cell saturation behind each element
+            function localFill(el){
+                if(!el) return 0;
+                var rect=el.getBoundingClientRect();
+                // Sample 5 points across the element
+                var sum=0,count=0;
+                var ys=[rect.top+rect.height*0.3, rect.top+rect.height*0.7];
+                var xs=[rect.left+rect.width*0.1, rect.left+rect.width*0.5, rect.left+rect.width*0.9];
+                for(var yi=0;yi<ys.length;yi++){
+                    for(var xi=0;xi<xs.length;xi++){
+                        sum+=fills[nearest(xs[xi],ys[yi])];
+                        count++;
+                    }
+                }
+                return sum/count;
+            }
+            function fillToColor(lf){
+                // Starts at lf=0.15, full white at lf=0.5
+                var t=Math.max(0,Math.min(1,(lf-0.15)/0.35));
+                var r=Math.round(107+t*148);
+                var g=Math.round(107+t*148);
+                var b=Math.round(100+t*155);
+                return 'rgb('+r+','+g+','+b+')';
+            }
+            var sub=document.querySelector('.subtitle');
+            if(sub) sub.style.color=fillToColor(localFill(sub));
+            var fl=document.querySelector('.footer-left');
+            var flCol=fillToColor(localFill(fl));
+            if(fl) { fl.style.color=flCol; var fla=fl.querySelector('a'); if(fla) fla.style.color=flCol; }
+            var flinks=document.querySelectorAll('.footer-links a');
+            var flWrap=document.querySelector('.footer-links');
+            var flCol=fillToColor(localFill(flWrap));
+            for(var i=0;i<flinks.length;i++) flinks[i].style.color=flCol;
         }
 
         var last=0;
