@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Accrue — Continual Learning Research</title>
     <meta name="description" content="Accrue is a research project building language models that learn continuously, pushing the pareto frontier of plasticity and stability.">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon_32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon_192.png">
+    <link rel="apple-touch-icon" href="/favicon_192.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
@@ -30,7 +34,8 @@
         #voronoi-bg { position: fixed; top:0; left:0; width:100%; height:100%; z-index:0; pointer-events:none; }
         nav { position:fixed; top:0; left:0; right:0; z-index:100; background:rgba(250,250,248,0.85); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border-bottom:1px solid var(--color-border); }
         nav .nav-inner { max-width:960px; margin:0 auto; padding:0.8rem 2rem; display:flex; justify-content:space-between; align-items:center; }
-        nav .logo { font-family:var(--font-display); font-size:1.3rem; font-weight:600; color:var(--color-text); text-decoration:none; letter-spacing:-0.02em; }
+        nav .logo { font-family:var(--font-display); font-size:1.3rem; font-weight:600; color:var(--color-text); text-decoration:none; letter-spacing:-0.02em; display:flex; align-items:center; gap:0.5rem; }
+        nav .logo svg { flex-shrink:0; position:relative; top:0.04em; }
         nav .nav-links { display:flex; gap:2rem; list-style:none; }
         nav .nav-links a { font-size:0.82rem; color:var(--color-text-secondary); text-decoration:none; font-weight:400; letter-spacing:0.02em; transition:color 0.2s; }
         nav .nav-links a:hover { color:var(--color-text); }
@@ -60,11 +65,11 @@
 </head>
 <body>
     <canvas id="voronoi-bg"></canvas>
-    <nav><div class="nav-inner"><a href="/" class="logo">Accrue</a><ul class="nav-links"><li><a href="mailto:marv@accrue.build">Contact</a></li></ul></div></nav>
+    <nav><div class="nav-inner"><a href="/" class="logo"><svg viewBox="-6 -6 524 524" width="30" height="30" style="flex-shrink:0"><rect x="0" y="0" width="512" height="512" fill="none" stroke="#2d5a3d" stroke-width="8" rx="8"/><line x1="0" y1="512" x2="512" y2="304.1" stroke="#2d5a3d" stroke-width="8" stroke-linecap="round"/><line x1="85.3" y1="512" x2="512" y2="226.4" stroke="#2d5a3d" stroke-width="11" stroke-linecap="round"/><line x1="170.7" y1="512" x2="512" y2="135.3" stroke="#2d5a3d" stroke-width="14" stroke-linecap="round"/><line x1="256" y1="512" x2="512" y2="46.2" stroke="#2d5a3d" stroke-width="18" stroke-linecap="round"/><line x1="341.3" y1="512" x2="512" y2="0" stroke="#2d5a3d" stroke-width="23" stroke-linecap="round"/></svg>Accrue</a><ul class="nav-links"><li><a href="mailto:marv@accrue.build">Contact</a></li></ul></div></nav>
     <main>
         <section class="hero">
             <h1 class="fade-in">Intelligence that accrues.</h1>
-            <p class="subtitle fade-in">Accrue is a research project on <em>continual learning</em> for language models. We build agents that continuously acquire procedural knowledge at the weight level while minimizing catastrophic forgetting.</p>
+            <p class="subtitle fade-in">Accrue is a research project on <em>continual learning</em> for language models. We develop methods that push the pareto frontier of learning plasticity and stability.</p>
         </section>
 	<!--<div class="divider"></div>-->
         <!--<section class="manifesto">
