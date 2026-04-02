@@ -273,13 +273,13 @@
                 if(smx>0&&smy>0){
                     var dx=smx-baseX, dy=smy-baseY;
                     var dist=Math.sqrt(dx*dx+dy*dy)+1;
-                    var pull=Math.min(25, 6000/(dist+80));
+                    var pull=10000/(dist+50);
                     tax=dx/dist*pull;
                     tay=dy/dist*pull;
                 }
-                // Lerp current offset toward target (slow, smooth)
-                seeds[i].ax+=(tax-seeds[i].ax)*0.07;
-                seeds[i].ay+=(tay-seeds[i].ay)*0.07;
+                // Lerp current offset toward target (smooth)
+                seeds[i].ax+=(tax-seeds[i].ax)*0.1;
+                seeds[i].ay+=(tay-seeds[i].ay)*0.1;
                 seeds[i].x=baseX+seeds[i].ax;
                 seeds[i].y=baseY+seeds[i].ay;
             }
