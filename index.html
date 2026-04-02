@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accrue — Continual Learning Research</title>
+    <meta name="description" content="Accrue is a research project building language models that learn continuously, pushing the pareto frontier of plasticity and stability.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-bg: #FAFAF8;
+            --color-text: #1a1a18;
+            --color-text-secondary: #6b6b64;
+            --color-accent: #2d5a3d;
+            --color-border: #e2e0dc;
+            --font-display: 'EB Garamond', Georgia, serif;
+            --font-body: 'DM Sans', -apple-system, sans-serif;
+            --max-width: 680px;
+            --space-sm: 1rem; --space-md: 2rem; --space-lg: 4rem; --space-xl: 6rem;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { font-size: 18px; scroll-behavior: smooth; }
+        body {
+            font-family: var(--font-body); background-color: var(--color-bg);
+            color: var(--color-text); line-height: 1.7; font-weight: 400;
+            -webkit-font-smoothing: antialiased; overflow-x: hidden;
+        }
+        #voronoi-bg { position: fixed; top:0; left:0; width:100%; height:100%; z-index:0; pointer-events:none; }
+        nav { position:fixed; top:0; left:0; right:0; z-index:100; background:rgba(250,250,248,0.85); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border-bottom:1px solid var(--color-border); }
+        nav .nav-inner { max-width:960px; margin:0 auto; padding:0.8rem 2rem; display:flex; justify-content:space-between; align-items:center; }
+        nav .logo { font-family:var(--font-display); font-size:1.3rem; font-weight:600; color:var(--color-text); text-decoration:none; letter-spacing:-0.02em; }
+        nav .nav-links { display:flex; gap:2rem; list-style:none; }
+        nav .nav-links a { font-size:0.82rem; color:var(--color-text-secondary); text-decoration:none; font-weight:400; letter-spacing:0.02em; transition:color 0.2s; }
+        nav .nav-links a:hover { color:var(--color-text); }
+        main { position:relative; z-index:1; max-width:var(--max-width); margin:0 auto; padding:0 2rem; }
+        .hero { padding-top:calc(var(--space-xl) + 4rem); padding-bottom:var(--space-lg); min-height:85vh; display:flex; flex-direction:column; justify-content:center; }
+        .hero h1 { font-family:var(--font-display); font-size:3rem; font-weight:500; line-height:1.15; letter-spacing:-0.03em; margin-bottom:var(--space-md); }
+        .hero .subtitle { font-size:1.1rem; line-height:1.75; color:var(--color-text-secondary); max-width:560px; font-weight:300; }
+        .hero .subtitle em { color:var(--color-text); font-style:normal; font-weight:400; }
+        .divider { width:3rem; height:1px; background:var(--color-border); margin:var(--space-lg) 0; }
+        .manifesto { padding-bottom:var(--space-xl); }l
+        .manifesto h2 { font-family:var(--font-display); font-size:1.8rem; font-weight:500; letter-spacing:-0.02em; margin-bottom:var(--space-md); line-height:1.3; }
+        .manifesto p { margin-bottom:1.4rem; font-weight:300; line-height:1.8; }
+        .manifesto p:last-child { margin-bottom:0; }
+        .manifesto p strong { font-weight:500; }
+        .manifesto .placeholder { color:var(--color-text-secondary); font-style:italic; font-size:0.95rem; }
+        footer { position:relative; z-index:1; max-width:var(--max-width); margin:0 auto; padding:var(--space-lg) 2rem var(--space-md); border-top:1px solid var(--color-border); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; }
+        footer .footer-left { font-size:0.78rem; color:var(--color-text-secondary); font-weight:300; }
+        footer .footer-left a { color:var(--color-text-secondary); text-decoration:underline; text-underline-offset:2px; }
+        footer .footer-links { display:flex; gap:1.5rem; list-style:none; }
+        footer .footer-links a { font-size:0.78rem; color:var(--color-text-secondary); text-decoration:none; font-weight:400; transition:color 0.2s; }
+        footer .footer-links a:hover { color:var(--color-text); }
+        @media (max-width:640px) { html{font-size:16px;} .hero{min-height:70vh;} .hero h1{font-size:2.2rem;} nav .nav-inner{padding:0.7rem 1.2rem;} main{padding:0 1.2rem;} footer{padding-left:1.2rem;padding-right:1.2rem;} }
+        .fade-in { opacity:0; transform:translateY(12px); animation:fadeUp 0.6s ease forwards; }
+        .fade-in:nth-child(2) { animation-delay:0.1s; }
+        @keyframes fadeUp { to { opacity:1; transform:translateY(0); } }
+    </style>
+</head>
+<body>
+    <canvas id="voronoi-bg"></canvas>
+    <nav><div class="nav-inner"><a href="/" class="logo">Accrue</a><ul class="nav-links"><li><a href="mailto:marv@accrue.build">Contact</a></li></ul></div></nav>
+    <main>
+        <section class="hero">
+            <h1 class="fade-in">Intelligence that accrues.</h1>
+            <p class="subtitle fade-in">Accrue is a research project on <em>continual learning</em> for language models. We build agents that continuously acquire procedural knowledge at the weight level, while minimizing catastrophic forgetting.</p>
+        </section>
+	<!--<div class="divider"></div>-->
+        <section class="manifesto">
+            <h2>Manifesto</h2>
+            <p class="placeholder">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+            <p class="placeholder">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+            <p class="placeholder">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.</p>
+            <p class="placeholder">Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.</p>
+        </section>
+    </main>
+    <footer>
+        <div class="footer-left">Accrue — a research project by <a href="mailto:marv@accrue.build">Marvin Koss</a></div>
+        <ul class="footer-links">
+            <li><a href="https://github.com/marvosyntactical" target="_blank">GitHub</a></li>
+            <li><a href="https://twitter.com/hal9kcyon" target="_blank">Twitter</a></li>
+        </ul>
+    </footer>
+    <script>
+    ;(function() {
+        var canvas = document.getElementById('voronoi-bg');
+        var ctx = canvas.getContext('2d');
+        var W = 0, H = 0, N = 25;
+        var seeds = [], fills = [];
+        var mx = -9999, my = -9999;
+        for (var i = 0; i < N; i++) fills[i] = 0;
+
+        /* --- Circumcenter --- */
+        function cc(ax,ay,bx,by,cx,cy) {
+            var D=2*(ax*(by-cy)+bx*(cy-ay)+cx*(ay-by));
+            if(Math.abs(D)<1e-10) return null;
+            return {
+                x:((ax*ax+ay*ay)*(by-cy)+(bx*bx+by*by)*(cy-ay)+(cx*cx+cy*cy)*(ay-by))/D,
+                y:((ax*ax+ay*ay)*(cx-bx)+(bx*bx+by*by)*(ax-cx)+(cx*cx+cy*cy)*(bx-ax))/D
+            };
+        }
+
+        /* --- Bowyer-Watson Delaunay --- */
+        function delaunay(pts,w,h) {
+            var M=Math.max(w,h)*10;
+            var s0={x:-M,y:-M,id:-1},s1={x:w+2*M,y:-M,id:-2},s2={x:w/2,y:h+2*M,id:-3};
+            var tris=[{a:s0,b:s1,c:s2}];
+            for(var pi=0;pi<pts.length;pi++){
+                var p=pts[pi],bad=[],poly=[];
+                for(var ti=0;ti<tris.length;ti++){
+                    var t=tris[ti],c=cc(t.a.x,t.a.y,t.b.x,t.b.y,t.c.x,t.c.y);
+                    if(!c){bad.push(ti);continue;}
+                    var dx=t.a.x-c.x,dy=t.a.y-c.y,r2=dx*dx+dy*dy;
+                    var px=p.x-c.x,py=p.y-c.y;
+                    if(px*px+py*py<r2) bad.push(ti);
+                }
+                for(var bi=0;bi<bad.length;bi++){
+                    var t=tris[bad[bi]],edges=[[t.a,t.b],[t.b,t.c],[t.c,t.a]];
+                    for(var ei=0;ei<3;ei++){
+                        var shared=false;
+                        for(var bj=0;bj<bad.length;bj++){
+                            if(bi===bj)continue;
+                            var t2=tris[bad[bj]],v=[t2.a,t2.b,t2.c],hA=false,hB=false;
+                            for(var k=0;k<3;k++){if(v[k]===edges[ei][0])hA=true;if(v[k]===edges[ei][1])hB=true;}
+                            if(hA&&hB){shared=true;break;}
+                        }
+                        if(!shared) poly.push(edges[ei]);
+                    }
+                }
+                bad.sort(function(a,b){return b-a;});
+                for(var bi=0;bi<bad.length;bi++) tris.splice(bad[bi],1);
+                for(var ei=0;ei<poly.length;ei++) tris.push({a:p,b:poly[ei][0],c:poly[ei][1]});
+            }
+            // Return ALL triangles and filtered (no super-tri)
+            var interior=[];
+            for(var ti=0;ti<tris.length;ti++){
+                var t=tris[ti];
+                if(t.a.id>=0&&t.b.id>=0&&t.c.id>=0) interior.push(t);
+            }
+            return {all:tris, interior:interior};
+        }
+
+        /* --- Sutherland-Hodgman polygon clipping --- */
+        function clipPolyToRect(poly, xmin, ymin, xmax, ymax) {
+            var out = poly;
+            // Clip against each edge
+            out = clipEdge(out, function(p){return p.x>=xmin;}, function(a,b){var t=(xmin-a.x)/(b.x-a.x);return{x:xmin,y:a.y+t*(b.y-a.y)};});
+            out = clipEdge(out, function(p){return p.x<=xmax;}, function(a,b){var t=(xmax-a.x)/(b.x-a.x);return{x:xmax,y:a.y+t*(b.y-a.y)};});
+            out = clipEdge(out, function(p){return p.y>=ymin;}, function(a,b){var t=(ymin-a.y)/(b.y-a.y);return{x:a.x+t*(b.x-a.x),y:ymin};});
+            out = clipEdge(out, function(p){return p.y<=ymax;}, function(a,b){var t=(ymax-a.y)/(b.y-a.y);return{x:a.x+t*(b.x-a.x),y:ymax};});
+            return out;
+        }
+        function clipEdge(pts, inside, intersect) {
+            if(!pts||pts.length===0) return [];
+            var out=[];
+            for(var i=0;i<pts.length;i++){
+                var cur=pts[i], prev=pts[(i+pts.length-1)%pts.length];
+                var cIn=inside(cur), pIn=inside(prev);
+                if(pIn&&cIn) out.push(cur);
+                else if(pIn&&!cIn) out.push(intersect(prev,cur));
+                else if(!pIn&&cIn){ out.push(intersect(prev,cur)); out.push(cur); }
+            }
+            return out;
+        }
+
+        /* --- Build voronoi cells using ALL triangles (including super-tri) --- */
+        function buildCells(pts, allTris) {
+            var cells = [];
+            for (var si = 0; si < pts.length; si++) {
+                var seed = pts[si];
+                var ccs = [];
+                for (var ti = 0; ti < allTris.length; ti++) {
+                    var t = allTris[ti];
+                    if (t.a !== seed && t.b !== seed && t.c !== seed) continue;
+                    var c = cc(t.a.x,t.a.y,t.b.x,t.b.y,t.c.x,t.c.y);
+                    if (c) {
+                        c.angle = Math.atan2(c.y - seed.y, c.x - seed.x);
+                        ccs.push(c);
+                    }
+                }
+                ccs.sort(function(a,b){return a.angle - b.angle;});
+                // Clip to canvas bounds
+                if (ccs.length >= 3) {
+                    ccs = clipPolyToRect(ccs, 0, 0, W, H);
+                }
+                cells.push(ccs);
+            }
+            return cells;
+        }
+
+        /* --- Voronoi edges from interior triangles only --- */
+        function buildEdges(tris) {
+            var edges = [];
+            for (var i = 0; i < tris.length; i++) {
+                var t1=tris[i];
+                var cc1=cc(t1.a.x,t1.a.y,t1.b.x,t1.b.y,t1.c.x,t1.c.y);
+                if(!cc1) continue;
+                for (var j = i+1; j < tris.length; j++) {
+                    var t2=tris[j];
+                    var v1=[t1.a,t1.b,t1.c],v2=[t2.a,t2.b,t2.c],sh=0;
+                    for(var a=0;a<3;a++) for(var b=0;b<3;b++) if(v1[a]===v2[b]) sh++;
+                    if(sh!==2) continue;
+                    var cc2=cc(t2.a.x,t2.a.y,t2.b.x,t2.b.y,t2.c.x,t2.c.y);
+                    if(!cc2) continue;
+                    edges.push({x1:cc1.x,y1:cc1.y,x2:cc2.x,y2:cc2.y});
+                }
+            }
+            return edges;
+        }
+
+        /* --- Cohen-Sutherland line clipping --- */
+        function clipLine(x0,y0,x1,y1) {
+            var INSIDE=0,L=1,R=2,B=4,T=8;
+            function oc(x,y){var c=0;if(x<0)c|=L;else if(x>W)c|=R;if(y<0)c|=T;else if(y>H)c|=B;return c;}
+            var c0=oc(x0,y0),c1=oc(x1,y1);
+            for(var i=0;i<20;i++){
+                if(!(c0|c1)) return{x1:x0,y1:y0,x2:x1,y2:y1};
+                if(c0&c1) return null;
+                var co=c0?c0:c1,x,y;
+                if(co&B){x=x0+(x1-x0)*(H-y0)/(y1-y0);y=H;}
+                else if(co&T){x=x0+(x1-x0)*(0-y0)/(y1-y0);y=0;}
+                else if(co&R){y=y0+(y1-y0)*(W-x0)/(x1-x0);x=W;}
+                else{y=y0+(y1-y0)*(0-x0)/(x1-x0);x=0;}
+                if(co===c0){x0=x;y0=y;c0=oc(x0,y0);}
+                else{x1=x;y1=y;c1=oc(x1,y1);}
+            }
+            return null;
+        }
+
+        /* --- Setup --- */
+        function setup() {
+            W=window.innerWidth; H=window.innerHeight;
+            canvas.width=W; canvas.height=H;
+            seeds=[];
+            for(var i=0;i<N;i++){
+                var x=Math.random()*W, y=Math.random()*H;
+                seeds.push({x:x,y:y,bx:x,by:y,id:i});
+            }
+        }
+
+        function nearest(px,py){
+            var best=0,bd=1e9;
+            for(var i=0;i<N;i++){var dx=px-seeds[i].x,dy=py-seeds[i].y,d=dx*dx+dy*dy;if(d<bd){bd=d;best=i;}}
+            return best;
+        }
+
+        function tick(t) {
+            for(var i=0;i<N;i++){
+                seeds[i].x=seeds[i].bx+Math.sin(t*0.0004+i*1.7)*18;
+                seeds[i].y=seeds[i].by+Math.cos(t*0.0003+i*2.3)*14;
+            }
+            if(mx>0&&my>0){
+                fills[nearest(mx,my)]=Math.min(1,fills[nearest(mx,my)]+0.02);
+            }
+            // Very slow decay (3x slower than before)
+            for(var i=0;i<N;i++) fills[i]=Math.max(0,fills[i]-0.00013);
+        }
+
+        function draw() {
+            ctx.clearRect(0,0,W,H);
+
+            var result = delaunay(seeds,W,H);
+            var cells = buildCells(seeds, result.all);
+            var edges = buildEdges(result.interior);
+
+            // Draw cell fills as clipped polygons
+            for(var si=0;si<cells.length;si++){
+                var f=fills[si];
+                if(f<0.005||cells[si].length<3) continue;
+                var verts=cells[si];
+                ctx.beginPath();
+                ctx.moveTo(verts[0].x,verts[0].y);
+                for(var vi=1;vi<verts.length;vi++) ctx.lineTo(verts[vi].x,verts[vi].y);
+                ctx.closePath();
+                ctx.fillStyle='rgba(45,90,61,'+(f*0.13).toFixed(3)+')';
+                ctx.fill();
+            }
+
+            // Draw voronoi edges, clipped to canvas
+            ctx.beginPath();
+            for(var i=0;i<edges.length;i++){
+                var cl=clipLine(edges[i].x1,edges[i].y1,edges[i].x2,edges[i].y2);
+                if(!cl) continue;
+                ctx.moveTo(cl.x1,cl.y1);
+                ctx.lineTo(cl.x2,cl.y2);
+            }
+            ctx.strokeStyle='rgba(120,118,112,0.14)';
+            ctx.lineWidth=1;
+            ctx.stroke();
+        }
+
+        var last=0;
+        function loop(t){
+            if(t-last>50){last=t;tick(t);draw();}
+            requestAnimationFrame(loop);
+        }
+
+        document.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;});
+        document.addEventListener('mouseleave',function(){mx=-9999;my=-9999;});
+        window.addEventListener('resize',setup);
+        setup();
+        requestAnimationFrame(loop);
+    })();
+    </script>
+</body>
+</html>
