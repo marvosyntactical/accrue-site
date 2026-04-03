@@ -42,7 +42,7 @@
         nav .nav-links a:hover { color:var(--color-text); }
         main { position:relative; z-index:1; max-width:var(--max-width); margin:0 auto; padding:0 2rem; }
         .paper { position:relative; z-index:1; max-width:calc(var(--max-width) + 6rem); margin:40vh auto 4rem; background:var(--color-bg); border-radius:4px; padding:0 1rem; }
-        .hero { padding-top:8rem; padding-bottom:10rem; }
+        .hero { padding-top:8rem; padding-bottom:1.6rem; }
         .hero h1 { font-family:var(--font-display); font-size:3rem; font-weight:500; line-height:1.15; letter-spacing:-0.03em; margin-bottom:var(--space-md); }
         .hero .subtitle { font-size:1.1rem; line-height:1.75; color:var(--color-text-secondary); max-width:560px; font-weight:300; }
         .hero .subtitle em { color:var(--color-text); font-style:normal; font-weight:400; }
@@ -52,7 +52,7 @@
         .manifesto p { margin-bottom:1.4rem; font-weight:300; line-height:1.8; }
         .manifesto p:last-child { margin-bottom:0; }
         .manifesto p strong { font-weight:500; }
-        .manifesto .placeholder { color:var(--color-text-secondary); font-style:italic; font-size:0.95rem; }
+	.manifesto .placeholder { color:var(--color-text-secondary); font-size:1.1rem; font-weight:300; line-height:1.75; }
         footer { position:relative; z-index:1; max-width:var(--max-width); margin:0 auto; padding:var(--space-lg) 2rem var(--space-md); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; }
         footer .footer-left { font-size:0.78rem; color:var(--color-text-secondary); font-weight:300; }
         footer .footer-left a { color:var(--color-text-secondary); text-decoration:underline; text-underline-offset:2px; }
@@ -77,20 +77,19 @@
 	<!--<div class="divider"></div>-->
         <section class="manifesto">
 	<!--<h2>Manifesto</h2>-->
-            <p class="placeholder">It's 2026, and Language Models still don't learn from experience.
-	    Adaptation is handled at inference time through prompting, context management and retrieval. These work well enough for factual
- recall, but not for acquiring procedural knowledge. This is <em>the most important unsolved problem in AI</em>,
- and we believe <em>it is solvable</em>.</p>
-            <p class="placeholder">The prevailing response to model limitations is scale: more
+            <p class="placeholder">The year is 2026, and language models still don't learn from experience.
+	    <!--Adaptation is handled at inference time through prompting, context management and retrieval. These work well enough for factual
+		    recall, but do nothing for actual improvement.--> It remains the most important unsolved problem in AI.</p>
+            <!--<p class="placeholder">The canon response to model limitations is scale: more
 parameters, more data, longer context. Instead of trying to climb up
-scaling laws like this, we want to <em>increase their slope</em>.</p>
-	    <p class="placeholder">We believe the <em>plasticity-stability</em> tradeoff — how fast new knowledge
-is learned versus how well old knowledge is retained — is the right framing for
-generalisation overall, which makes the continual learning problem a guiding principle for developing optimally generalising models.
-</p>
-            <p class="placeholder">Frontier models solve the generalisation problem by exhausting all data during pretraining, so the relative gain from the methods we are developing will be largest for smaller models. 
-	    It follows that this is <em>the</em> way to <em>even the playing field</em> and make open source models progressively more competitive.
-</p>
+scaling laws like this, we want to <em>increase their slope</em>.</p>-->
+	    <!--<p class="placeholder">We view the tension between <em>plasticity and stability</em> — how fast new stuff is learned vs. how well old stuff is retained — as the right framing for
+generalisation overall. The continual learning prob guiding principle for developing optimally generalising models.
+	    </p>-->
+            <!--<p class="placeholder">Frontier models mostly sidestep the generalisation problem by being trained on enough data that there is little generalisation left to be done. 
+	    The relative gain from the kind of methods we're developing will be largest for smaller models. 
+	    They're a way to <em>even the playing field</em> and make open source models competitive.
+	    </p>-->
 <!--<p class="placeholder">Methods that reduce catastrophic forgetting reduce wasted compute per gradient
 step. A solution to continual learning therefore potentially also make pretraining more efficient, reducing energy costs.
 </p>-->
@@ -98,8 +97,8 @@ step. A solution to continual learning therefore potentially also make pretraini
 new task knowledge to be consolidated while overwriting existing
 representations minimally. Early results show roughly <em>half the catastrophic forgetting</em> of current methods.
 	    </p>-->
-<p class="placeholder">We are building a live demonstration at <em>FR8</em>, Helsinki: an agent that efficiently
-acquires skills at the weight level across sessions.</p>
+<p class="placeholder">At <em>FR8</em>, we're currently building an agent that efficiently
+acquires skills at the weight level across sessions. Early results show half the catastrophic forgetting of current methods.</p>
             <!--<p class="placeholder">This is early-stage work. The ideas will sharpen as experiments
 		    accrue. Our main thesis being: intelligence should as well.</p>-->
         </section>
