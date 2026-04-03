@@ -5,10 +5,13 @@
       .l, .b { stroke: #ffffff; }
     }
   </style>
+  <defs><clipPath id="sq"><rect x="0" y="0" width="512" height="512" rx="8"/></clipPath></defs>
   <rect x="0" y="0" width="512" height="512" fill="none" class="b" stroke-width="8" rx="8"/>
-  <line x1="0.0" y1="512.0" x2="512.0" y2="304.1" class="l" stroke-width="8" stroke-linecap="round"/>
-  <line x1="85.3" y1="512.0" x2="512.0" y2="226.4" class="l" stroke-width="11" stroke-linecap="round"/>
-  <line x1="170.7" y1="512.0" x2="512.0" y2="135.3" class="l" stroke-width="14" stroke-linecap="round"/>
-  <line x1="256.0" y1="512.0" x2="512.0" y2="46.2" class="l" stroke-width="18" stroke-linecap="round"/>
-  <line x1="341.3" y1="512.0" x2="512.0" y2="0.0" class="l" stroke-width="23" stroke-linecap="round"/>
+  <g clip-path="url(#sq)">
+    <line x1="0.0" y1="512.0" x2="512.0" y2="304.1" class="l" stroke-width="8" stroke-linecap="round"/>
+    <line x1="85.3" y1="512.0" x2="512.0" y2="226.4" class="l" stroke-width="11" stroke-linecap="round"/>
+    <line x1="170.7" y1="512.0" x2="512.0" y2="135.3" class="l" stroke-width="14" stroke-linecap="round"/>
+    <line x1="256.0" y1="512.0" x2="512.0" y2="46.2" class="l" stroke-width="18" stroke-linecap="round"/>
+    <line x1="341.3" y1="512.0" x2="512.0" y2="0.0" class="l" stroke-width="23" stroke-linecap="round"/>
+  </g>
 </svg>
