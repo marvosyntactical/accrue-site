@@ -41,10 +41,11 @@
         nav .nav-links a { font-size:0.82rem; color:var(--color-text-secondary); text-decoration:none; font-weight:400; letter-spacing:0.02em; transition:color 0.2s; }
         nav .nav-links a:hover { color:var(--color-text); }
         main { position:relative; z-index:1; max-width:var(--max-width); margin:0 auto; padding:0 2rem; }
-        .paper { position:relative; z-index:1; max-width:calc(var(--max-width) + 6rem); margin:40vh auto 4rem; background:var(--color-bg); border-radius:4px; padding:0 1rem; }
-        .hero { padding-top:8rem; padding-bottom:1.6rem; }
-        .hero h1 { font-family:var(--font-display); font-size:3rem; font-weight:500; line-height:1.15; letter-spacing:-0.03em; margin-bottom:var(--space-md); }
-        .hero .subtitle { font-size:1.1rem; line-height:1.75; color:var(--color-text-secondary); max-width:560px; font-weight:300; }
+        .paper { position:relative; z-index:1; max-width:calc(var(--max-width) + 6rem); margin:20vh auto 4rem; background:var(--color-bg); border-radius:4px; padding:0 1rem; }
+        .hero { padding-top:8rem; padding-bottom:3rem; }
+        .hero h1 { font-family:var(--font-display); font-size:3rem; font-weight:500; line-height:1.15; letter-spacing:-0.03em; margin-bottom:2.5rem; }
+        .hero .subtitle { font-size:1.1rem; line-height:1.75; color:var(--color-text-secondary); max-width:560px; font-weight:300; margin-bottom:1rem; }
+        .hero .subtitle:last-child { margin-bottom:0; }
         .hero .subtitle em { color:var(--color-text); font-style:normal; font-weight:400; }
         .divider { width:3rem; height:1px; background:var(--color-border); margin:var(--space-lg) 0; }
         .manifesto { padding-bottom:var(--space-xl); }
@@ -75,11 +76,12 @@
             <p class="subtitle fade-in">The year is 2026, and language models still don't learn from experience.
 	    <!--Adaptation is handled at inference time through prompting, context management and retrieval. These work well enough for factual
 		    recall, but do nothing for actual improvement.--> It remains the most important unsolved problem in AI.</p>
+            <p class="subtitle fade-in">Accrue is a research project on <em>continual learning</em>. We aim to push the pareto frontier of learning plasticity and stability.</p>
+<p class="subtitle fade-in">At <em>FR8</em> Cohort 2.s, we're developing an agent that efficiently
+acquires skills at the weight level across sessions. Early results show half the catastrophic forgetting of current methods.</p>
         </section>
 	<!--<div class="divider"></div>-->
-        <section class="manifesto">
 	<!--<h2>Manifesto</h2>-->
-            <p class="placeholder">Accrue is a research project on <em>continual learning</em>. We aim to push the pareto frontier of learning plasticity and stability.</p>
             <!--<p class="placeholder">The canon response to model limitations is scale: more
 parameters, more data, longer context. Instead of trying to climb up
 scaling laws like this, we want to <em>increase their slope</em>.</p>-->
@@ -97,11 +99,8 @@ step. A solution to continual learning therefore potentially also make pretraini
 new task knowledge to be consolidated while overwriting existing
 representations minimally. Early results show roughly <em>half the catastrophic forgetting</em> of current methods.
 	    </p>-->
-<p class="placeholder">At <em>FR8</em> Cohort 2.s, we're developing an agent that efficiently
-acquires skills at the weight level across sessions. Early results show half the catastrophic forgetting of current methods.</p>
             <!--<p class="placeholder">This is early-stage work. The ideas will sharpen as experiments
 		    accrue. Our main thesis being: intelligence should as well.</p>-->
-        </section>
     </main>
     <footer>
         <div class="footer-left">Accrue — a research project by <a href="https://marvosyntactical.github.io">Marvin Koss</a></div>
