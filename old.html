@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Accrue — Continual Learning Research</title>
-    <meta name="description" content="Accrue is a research project building language models that learn continuously, pushing the pareto frontier of plasticity and stability.">
+    <meta name="description" content="Accrue is a research project developing language models that learn continuously.">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon_32.png">
@@ -41,8 +41,9 @@
         nav .nav-links a { font-size:0.82rem; color:var(--color-text-secondary); text-decoration:none; font-weight:400; letter-spacing:0.02em; transition:color 0.2s; }
         nav .nav-links a:hover { color:var(--color-text); }
         main { position:relative; z-index:1; max-width:var(--max-width); margin:0 auto; padding:0 2rem; }
-        .hero { padding-top:calc(var(--space-xl) + 4rem); padding-bottom:var(--space-lg); min-height:85vh; display:flex; flex-direction:column; justify-content:center; }
-        .hero h1 { font-family:var(--font-display); font-size:3rem; font-weight:500; line-height:1.15; letter-spacing:-0.03em; margin-bottom:var(--space-md); }
+        .paper { position:relative; z-index:1; max-width:calc(var(--max-width) + 6rem); margin:20vh auto 4rem; background:var(--color-bg); border-radius:4px; padding:0 1rem; }
+        .hero { padding-top:8rem; padding-bottom:0rem; }
+        .hero h1 { font-family:var(--font-display); font-size:3rem; font-weight:500; line-height:1.15; letter-spacing:-0.03em; }
         .hero .subtitle { font-size:1.1rem; line-height:1.75; color:var(--color-text-secondary); max-width:560px; font-weight:300; }
         .hero .subtitle em { color:var(--color-text); font-style:normal; font-weight:400; }
         .divider { width:3rem; height:1px; background:var(--color-border); margin:var(--space-lg) 0; }
@@ -51,7 +52,7 @@
         .manifesto p { margin-bottom:1.4rem; font-weight:300; line-height:1.8; }
         .manifesto p:last-child { margin-bottom:0; }
         .manifesto p strong { font-weight:500; }
-        .manifesto .placeholder { color:var(--color-text-secondary); font-style:italic; font-size:0.95rem; }
+	.manifesto .placeholder { color:var(--color-text-secondary); font-size:1.1rem; font-weight:300; line-height:1.75; }
         footer { position:relative; z-index:1; max-width:var(--max-width); margin:0 auto; padding:var(--space-lg) 2rem var(--space-md); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; }
         footer .footer-left { font-size:0.78rem; color:var(--color-text-secondary); font-weight:300; }
         footer .footer-left a { color:var(--color-text-secondary); text-decoration:underline; text-underline-offset:2px; }
@@ -59,50 +60,46 @@
         footer .footer-links a { font-size:0.78rem; color:var(--color-text-secondary); text-decoration:none; font-weight:400; transition:color 0.2s; }
         footer .footer-links a:hover { color:var(--color-text); }
         @media (max-width:640px) { html{font-size:16px;} .hero{min-height:70vh;} .hero h1{font-size:2.2rem;} nav .nav-inner{padding:0.7rem 1.2rem;} main{padding:0 1.2rem;} footer{padding-left:1.2rem;padding-right:1.2rem;} }
-        .fade-in { opacity:0; transform:translateY(12px); animation:fadeUp 0.6s ease forwards; }
+        .fade-in { opacity:0; transform:translateY(12px); animation:fadeUp 0.6s ease forwards; padding-bottom:1.6em;}
         .fade-in:nth-child(2) { animation-delay:0.1s; }
         @keyframes fadeUp { to { opacity:1; transform:translateY(0); } }
     </style>
 </head>
 <body>
     <canvas id="voronoi-bg"></canvas>
-    <nav><div class="nav-inner"><a href="/" class="logo"><svg viewBox="-6 -6 524 524" width="30" height="30" style="flex-shrink:0"><defs><clipPath id="sq"><rect x="0" y="0" width="512" height="512" rx="8"/></clipPath></defs><rect x="0" y="0" width="512" height="512" fill="none" stroke="#2d5a3d" stroke-width="8" rx="8"/><g clip-path="url(#sq)"><line x1="0" y1="512" x2="512" y2="304.1" stroke="#2d5a3d" stroke-width="8" stroke-linecap="round"/><line x1="85.3" y1="512" x2="512" y2="226.4" stroke="#2d5a3d" stroke-width="11" stroke-linecap="round"/><line x1="170.7" y1="512" x2="512" y2="135.3" stroke="#2d5a3d" stroke-width="14" stroke-linecap="round"/><line x1="256" y1="512" x2="512" y2="46.2" stroke="#2d5a3d" stroke-width="18" stroke-linecap="round"/><line x1="341.3" y1="512" x2="512" y2="0" stroke="#2d5a3d" stroke-width="23" stroke-linecap="round"/></g></svg>Accrue</a><ul class="nav-links"><li><a href="/cdn-cgi/l/email-protection#503d312226103133332225357e3225393c34">Contact</a></li></ul></div></nav>
+    <nav><div class="nav-inner"><a href="/" class="logo"><svg viewBox="-6 -6 524 524" width="30" height="30" style="flex-shrink:0"><defs><clipPath id="sq"><rect x="0" y="0" width="512" height="512" rx="8"/></clipPath></defs><rect x="0" y="0" width="512" height="512" fill="none" stroke="#2d5a3d" stroke-width="8" rx="8"/><g clip-path="url(#sq)"><line x1="0" y1="512" x2="512" y2="304.1" stroke="#2d5a3d" stroke-width="8" stroke-linecap="round"/><line x1="85.3" y1="512" x2="512" y2="226.4" stroke="#2d5a3d" stroke-width="11" stroke-linecap="round"/><line x1="170.7" y1="512" x2="512" y2="135.3" stroke="#2d5a3d" stroke-width="14" stroke-linecap="round"/><line x1="256" y1="512" x2="512" y2="46.2" stroke="#2d5a3d" stroke-width="18" stroke-linecap="round"/><line x1="341.3" y1="512" x2="512" y2="0" stroke="#2d5a3d" stroke-width="23" stroke-linecap="round"/></g></svg>Accrue</a><ul class="nav-links"><li><a href="marv@accrue.build">Contact</a></li></ul></div></nav>
+    <div class="paper">
     <main>
         <section class="hero">
             <h1 class="fade-in">Intelligence that accrues.</h1>
-            <p class="subtitle fade-in">Accrue is a research project on practical <em>continual learning</em> for language models. We aim to push the pareto frontier of learning plasticity and stability.</p>
+            <p class="subtitle fade-in">The year is 2026, and language models still don't learn from experience.
+	    <!--Adaptation is handled at inference time through prompting, context management and retrieval. These work well enough for factual
+		    recall, but do nothing for actual improvement.--> It remains the most important unsolved problem in AI.</p>
+            <p class="subtitle fade-in">Accrue is a research project on <em>continual learning</em>. We aim to push the pareto frontier of learning plasticity and stability.</p>
+<p class="subtitle fade-in">At <em>FR8</em> Cohort 2.s, we're developing an agent that efficiently
+acquires skills at the weight level across sessions. Early results show half the catastrophic forgetting of current methods.</p>
         </section>
 	<!--<div class="divider"></div>-->
-        <section class="manifesto">
 	<!--<h2>Manifesto</h2>-->
-            <p class="placeholder">It's 2026, and Language models still do not learn from experience.
-Once deployed, their weights are fixed. All adaptation happens at inference time
- — through retrieval, context, and prompting. This is sufficient for factual
- recall, but not for acquiring skill. This is <em>the most important problem in AI</em>,
- and we believe <em>it is solvable</em>.</p>
-            <p class="placeholder">The prevailing response to model limitations is scale: more
+            <!--<p class="placeholder">The canon response to model limitations is scale: more
 parameters, more data, longer context. Instead of trying to climb up
-scaling laws like this, we want to <em>increase their slope</em>.</p>
-	    <p class="placeholder">We think the <em>plasticity-stability</em> tradeoff — how fast new knowledge
-is learned versus how well old knowledge is retained — is not just
-the central problem of continual learning, but the right framing for
-efficient learning in general. Methods that reduce destructive
-interference between tasks also reduce wasted compute per gradient
-step. If this is right, the methods that enable continual learning
-will also yield <em>more efficient training overall</em>.
-</p>
-            <p class="placeholder">Frontier models solve the generalisation problem by exhausting all data during pretraining, so the relative gain from the methods we are developing will be largest for smaller models. 
-	    It follows that this is <em>the</em> way to <em>even the playing field</em> and make open source models progressively more competitive.
-</p>
-            <p class="placeholder">Right now, we are combining structured merging of LoRAs with parameter importance weighting, enabling
+scaling laws like this, we want to <em>increase their slope</em>.</p>-->
+	    <!--<p class="placeholder">We view the tension between <em>plasticity and stability</em> — how fast new stuff is learned vs. how well old stuff is retained — as the right framing for
+generalisation overall. The continual learning prob guiding principle for developing optimally generalising models.
+	    </p>-->
+            <!--<p class="placeholder">Frontier models mostly sidestep the generalisation problem by being trained on enough data that there is little generalisation left to be done. 
+	    The relative gain from the kind of methods we're developing will be largest for smaller models. 
+	    They're a way to <em>even the playing field</em> and make open source models competitive.
+	    </p>-->
+<!--<p class="placeholder">Methods that reduce catastrophic forgetting reduce wasted compute per gradient
+step. A solution to continual learning therefore potentially also make pretraining more efficient, reducing energy costs.
+</p>-->
+            <!--<p class="placeholder">Right now, we are combining structured merging of LoRAs with parameter importance weighting, enabling
 new task knowledge to be consolidated while overwriting existing
 representations minimally. Early results show roughly <em>half the catastrophic forgetting</em> of current methods.
-</p>
-<p class="placeholder">We are building a live demonstration at <em>FR8</em> in Helsinki: an agent that efficiently
-acquires skills at the weight level across sessions.</p>
-            <p class="placeholder">This is early-stage work. The ideas will sharpen as experiments
-accrue. Our main thesis being: intelligence should as well.</p>
-        </section>
+	    </p>-->
+            <!--<p class="placeholder">This is early-stage work. The ideas will sharpen as experiments
+		    accrue. Our main thesis being: intelligence should as well.</p>-->
     </main>
     <footer>
         <div class="footer-left">Accrue — a research project by <a href="https://marvosyntactical.github.io">Marvin Koss</a></div>
@@ -111,14 +108,16 @@ accrue. Our main thesis being: intelligence should as well.</p>
             <li><a href="https://twitter.com/hal9kcyon" target="_blank">Twitter</a></li>
         </ul>
     </footer>
+    </div>
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     ;(function() {
         var canvas = document.getElementById('voronoi-bg');
         var ctx = canvas.getContext('2d');
-        var W = 0, H = 0, N = 25;
+        var W = 0, H = 0, N = 80;
         var seeds = [], fills = [], maxFill = [];
         var mx = -9999, my = -9999;
         var smx = -9999, smy = -9999; // smoothed mouse position
+        var fillSpeed = 3.0;
         for (var i = 0; i < N; i++) {
             fills[i] = 0;
             // Each cell settles to a slightly different saturation: range [0.82, 1.0]
@@ -316,7 +315,7 @@ accrue. Our main thesis being: intelligence should as well.</p>
                 var ni = nearest(smx,smy);
                 // Nonlinear fill: fast initially, asymptotically slowing (exponential approach)
                 var headroom = maxFill[ni] - fills[ni];
-                fills[ni] += 0.0067 * headroom;
+                fills[ni] += 0.0134 * fillSpeed * headroom;
                 // Neighbor spread: same exponential approach at lower rate
                 var neighbors = {};
                 for(var ti=0;ti<cachedResult.interior.length;ti++){
@@ -330,7 +329,7 @@ accrue. Our main thesis being: intelligence should as well.</p>
                 var nkeys=Object.keys(neighbors);
                 for(var j=0;j<nkeys.length;j++){
                     var nj=parseInt(nkeys[j]);
-                    if(nj>=0&&nj<N) fills[nj]+=0.0025*(maxFill[nj]-fills[nj]);
+                    if(nj>=0&&nj<N) fills[nj]+=0.005*fillSpeed*(maxFill[nj]-fills[nj]);
                 }
             }
         }
@@ -365,67 +364,6 @@ accrue. Our main thesis being: intelligence should as well.</p>
             ctx.strokeStyle='rgba(120,118,112,0.14)';
             ctx.lineWidth=1;
             ctx.stroke();
-
-            // Brighten text based on local cell saturation behind each element
-            function localFill(el){
-                if(!el) return 0;
-                var rect=el.getBoundingClientRect();
-                // Sample 5 points across the element
-                var sum=0,count=0;
-                var ys=[rect.top+rect.height*0.3, rect.top+rect.height*0.7];
-                var xs=[rect.left+rect.width*0.1, rect.left+rect.width*0.5, rect.left+rect.width*0.9];
-                for(var yi=0;yi<ys.length;yi++){
-                    for(var xi=0;xi<xs.length;xi++){
-                        sum+=fills[nearest(xs[xi],ys[yi])];
-                        count++;
-                    }
-                }
-                return sum/count;
-            }
-            function fillToStyle(lf){
-                // Map lf to [0,1] over the transition range
-                var t=Math.max(0,Math.min(1,(lf-0.12)/0.40));
-                // Steep sigmoid: text stays dark, then snaps to white quickly
-                var s=1/(1+Math.exp(-18*(t-0.55)));
-                // Color: near-black → white
-                var r=Math.round(30+s*225);
-                var g=Math.round(30+s*225);
-                var b=Math.round(28+s*227);
-                var color='rgb('+r+','+g+','+b+')';
-                // Transient text-shadow during the danger zone for contrast
-                // Parabola peaks at s=0.5, zero at endpoints
-                var shadowStrength=4*s*(1-s);
-                var shadow='none';
-                if(shadowStrength>0.05){
-                    // When text is becoming light (s>0.5), dark shadow; otherwise light shadow
-                    var sc=s>0.5?'0,0,0':'255,255,255';
-                    var a=(shadowStrength*0.85).toFixed(2);
-                    shadow='0 0 6px rgba('+sc+','+a+'), 0 0 14px rgba('+sc+','+(shadowStrength*0.4).toFixed(2)+')';
-                }
-                return {color:color, shadow:shadow};
-            }
-            function applyStyle(el, style){
-                if(!el) return;
-                el.style.color=style.color;
-                el.style.textShadow=style.shadow;
-            }
-            var sub=document.querySelector('.subtitle');
-            if(sub) applyStyle(sub, fillToStyle(localFill(sub)));
-            var fl=document.querySelector('.footer-left');
-            var flStyle=fillToStyle(localFill(fl));
-            if(fl) { applyStyle(fl, flStyle); var fla=fl.querySelector('a'); if(fla) applyStyle(fla, flStyle); }
-            var flinks=document.querySelectorAll('.footer-links a');
-            var flWrap=document.querySelector('.footer-links');
-            var flStyle2=fillToStyle(localFill(flWrap));
-            for(var i=0;i<flinks.length;i++) applyStyle(flinks[i], flStyle2);
-	    var man=document.querySelector('.manifesto');
-	    if(man){
-	        var manP=man.querySelectorAll('p');
-	        var manStyle=fillToStyle(localFill(man));
-	        for(var i=0;i<manP.length;i++) applyStyle(manP[i], manStyle);
-	        var manH=man.querySelector('h2');
-	        if(manH) applyStyle(manH, manStyle);
-	    }
         }
 
         var last=0;
@@ -435,4 +373,11 @@ accrue. Our main thesis being: intelligence should as well.</p>
         }
 
         document.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;});
-        document.addEventListener('mouseleave',function(){mx=-9999;my=-9999
+        document.addEventListener('mouseleave',function(){mx=-9999;my=-9999;});
+        window.addEventListener('resize',setup);
+        setup();
+        requestAnimationFrame(loop);
+    })();
+    </script>
+</body>
+</html>
